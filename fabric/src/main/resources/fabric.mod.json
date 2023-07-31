@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "military",
+  "version": "${version}",
+  "name": "VS2 Military Mod",
+  "description": "",
+  "authors": [
+    "alex_s168",
+    "koap",
+    "quarsan",
+    "Atom_14A"
+  ],
+  "contributors": [
+
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+  "license": "Apache-2.0",
+  "icon": "assets/military/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "org.valkyrienskies.military.fabric.MilitaryModFabric"
+    ],
+    "client": [
+      "org.valkyrienskies.military.fabric.MilitaryModFabric${'$'}Client"
+    ],
+    "preLaunch": [
+      "org.valkyrienskies.military.fabric.ValkyrienPreLaunch"
+    ],
+    "modmenu": [
+      "org.valkyrienskies.military.fabric.MilitaryModFabric${'$'}ModMenu"
+    ]
+  },
+  "mixins": [
+    "military-common.mixins.json",
+    "military.mixins.json"
+  ],
+  "depends": {
+    "minecraft": ">=1.18.2",
+    "valkyrienskies": ">=${vs2_version}"
+  }
+}
