@@ -7,7 +7,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.ModInitializer;
 import org.valkyrienskies.core.impl.config.VSConfigClass;
-import org.valkyrienskies.military.EurekaConfig;
+import org.valkyrienskies.military.MilConfig;
 import org.valkyrienskies.military.MilitaryMod;
 import org.valkyrienskies.mod.compat.clothconfig.VSClothConfig;
 import org.valkyrienskies.mod.fabric.common.ValkyrienSkiesModFabric;
@@ -35,7 +35,7 @@ public class MilitaryModFabric implements ModInitializer {
         public ConfigScreenFactory<?> getModConfigScreenFactory() {
             return (parent) -> VSClothConfig.createConfigScreenFor(
                     parent,
-                    VSConfigClass.Companion.getRegisteredConfig(EurekaConfig.class)
+                    VSConfigClass.Companion.getRegisteredConfig(MilConfig.class)
             );
         }
     }

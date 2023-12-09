@@ -1,8 +1,6 @@
 package org.valkyrienskies.military
 
-import net.minecraft.client.gui.font.FontManager
 import org.valkyrienskies.core.impl.config.VSConfigClass
-
 
 object MilitaryMod {
     const val MOD_ID = "military"
@@ -13,16 +11,14 @@ object MilitaryMod {
 
     @JvmStatic
     fun init() {
-        EurekaBlocks.register()
-        EurekaBlockEntities.register()
-        EurekaItems.register()
-        EurekaScreens.register()
-        EurekaWeights.register()
-        VSConfigClass.registerConfig("military", EurekaConfig::class.java)
+        MilBlocks.register()
+        MilBlockEntities.register()
+        MilItems.register()
+        VSConfigClass.registerConfig("military", MilConfig::class.java)
     }
 
     @JvmStatic
     fun initClient() {
-        EurekaClientScreens.register()
+
     }
 }

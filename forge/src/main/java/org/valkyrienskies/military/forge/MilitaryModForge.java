@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.valkyrienskies.core.impl.config.VSConfigClass;
-import org.valkyrienskies.military.EurekaConfig;
+import org.valkyrienskies.military.MilConfig;
 import org.valkyrienskies.military.MilitaryMod;
 import org.valkyrienskies.mod.compat.clothconfig.VSClothConfig;
 
@@ -30,7 +30,7 @@ public class MilitaryModForge {
         ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class,
                 () -> new ConfigGuiHandler.ConfigGuiFactory((Minecraft client, Screen parent) ->
                         VSClothConfig.createConfigScreenFor(parent,
-                                VSConfigClass.Companion.getRegisteredConfig(EurekaConfig.class)))
+                                VSConfigClass.Companion.getRegisteredConfig(MilConfig.class)))
         );
 
 

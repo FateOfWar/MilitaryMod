@@ -1,8 +1,3 @@
 {
-  "itemGroup.military.eureka_tab": "Military TAB",
-  "block.military.anchor": "Anchor",
-  "block.military.engine": "Ship Engine",
-  "block.military.floater": "Floater",
-  "block.military.ballast": "Ballast",
-  "gui.military.engine": "Engine"
+  "itemGroup.military.mil_tab": "Military Mod"
 }
