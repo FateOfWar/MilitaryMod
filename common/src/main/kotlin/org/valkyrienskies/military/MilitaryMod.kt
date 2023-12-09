@@ -54,15 +54,6 @@ object MilitaryMod {
                 { img },
                 SimpleTextureAtlasSprite(img, img.info, 0, 0, 0, 0, 0)
             )
-            val glTex = GL11.glGenTextures()
-            MilModels.TURRET_BASE_TEX_GL = glTex
-            GlStateManager._bindTexture(glTex)
-            texImg.upload(
-                0,
-                0,
-                0,
-                true
-            )
         }
     }
 }

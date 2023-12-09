@@ -9,5 +9,4 @@ object MilModels {
     lateinit var TURRET_BASE_RAW: ModelLoadContext
     lateinit var TURRET_BASE: BakedObjModel
     lateinit var TURRET_BASE_TEX: NativeImage
-    var TURRET_BASE_TEX_GL by Delegates.notNull<Int>()
 }
