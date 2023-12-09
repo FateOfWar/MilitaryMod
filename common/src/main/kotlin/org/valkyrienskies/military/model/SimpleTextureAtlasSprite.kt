@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.NativeImage
 import me.alex_s168.math.AABB
 import net.minecraft.client.renderer.texture.TextureAtlas
 import net.minecraft.client.renderer.texture.TextureAtlasSprite
+import net.minecraft.client.resources.metadata.animation.AnimationFrame
 import net.minecraft.client.resources.metadata.animation.AnimationMetadataSection
 import net.minecraft.resources.ResourceLocation
 import kotlin.math.max
@@ -11,7 +12,7 @@ import kotlin.math.max
 data class SimpleTextureAtlasSpriteSource(
     val img: NativeImage,
     val loc: ResourceLocation,
-    val anim: AnimationMetadataSection = AnimationMetadataSection.EMPTY,
+    val anim: AnimationMetadataSection = AnimationMetadataSection.EMPTY
 ) {
     val info: TextureAtlasSprite.Info get() =
         TextureAtlasSprite.Info(

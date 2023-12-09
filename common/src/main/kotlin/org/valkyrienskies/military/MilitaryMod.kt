@@ -1,10 +1,13 @@
 package org.valkyrienskies.military
 
+import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.platform.NativeImage
+import com.mojang.blaze3d.systems.RenderSystem
 import me.alex_s168.meshlib.format.OBJModelFormat
 import net.minecraft.client.renderer.texture.TextureAtlasSprite
 import net.minecraft.client.resources.metadata.animation.AnimationMetadataSection
 import net.minecraft.resources.ResourceLocation
+import org.lwjgl.opengl.GL11
 import org.valkyrienskies.core.impl.config.VSConfigClass
 import org.valkyrienskies.military.model.BakedObjModel
 import org.valkyrienskies.military.model.SimpleTextureAtlasSprite
@@ -45,10 +48,20 @@ object MilitaryMod {
             )
             val model = fmt.loadFrom(a)
             MilModels.TURRET_BASE_RAW = model
+            MilModels.TURRET_BASE_TEX = texImg
             MilModels.TURRET_BASE = BakedObjModel(
                 model,
                 { img },
                 SimpleTextureAtlasSprite(img, img.info, 0, 0, 0, 0, 0)
+            )
+            val glTex = GL11.glGenTextures()
+            MilModels.TURRET_BASE_TEX_GL = glTex
+            GlStateManager._bindTexture(glTex)
+            texImg.upload(
+                0,
+                0,
+                0,
+                true
             )
         }
     }

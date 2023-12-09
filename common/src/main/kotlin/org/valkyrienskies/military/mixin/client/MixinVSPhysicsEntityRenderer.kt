@@ -1,11 +1,13 @@
 package org.valkyrienskies.military.mixin.client
 
+import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.math.Vector4f
+import me.alex_s168.math.Vec3
+import me.alex_s168.meshlib.texture.TextureCoordinate
 import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.ItemBlockRenderTypes
 import net.minecraft.client.renderer.MultiBufferSource
-import net.minecraft.client.renderer.texture.OverlayTexture
-import net.minecraft.core.BlockPos
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.world.level.block.RenderShape
 import org.spongepowered.asm.mixin.Mixin
 import org.spongepowered.asm.mixin.Overwrite
@@ -16,6 +18,7 @@ import org.valkyrienskies.mod.common.IShipObjectWorldClientProvider
 import org.valkyrienskies.mod.common.ValkyrienSkiesMod
 import org.valkyrienskies.mod.common.entity.VSPhysicsEntity
 import org.valkyrienskies.mod.common.util.toMinecraft
+
 
 @Mixin(VSPhysicsEntityRenderer::class)
 class MixinVSPhysicsEntityRenderer {
@@ -57,20 +60,44 @@ class MixinVSPhysicsEntityRenderer {
         poseStack.pushPose()
 
         poseStack.translate(offsetX, offsetY, offsetZ)
+
         poseStack.mulPose(renderTransform.shipToWorldRotation.toMinecraft())
+
         poseStack.translate(-0.5, -0.5, -0.5)
-        val blockRenderDispatcher = Minecraft.getInstance().blockRenderer
-        blockRenderDispatcher.modelRenderer.renderModel(
-            poseStack.last(),
-            multiBufferSource.getBuffer(
-                ItemBlockRenderTypes.getMovingBlockRenderType(blockState)
-            ),
-            blockState,
-            MilModels.TURRET_BASE,
-            1f, 1f, 1f,
-            0,
-            OverlayTexture.NO_OVERLAY
-        )
+
+        RenderSystem.bindTexture(MilModels.TURRET_BASE_TEX_GL)
+
+        val consumer = multiBufferSource.getBuffer(RenderType.solid())
+
+        MilModels.TURRET_BASE_RAW.groups.forEach {
+            it.mesh.forEach { f ->
+                fun v(pos: Vec3, tex: TextureCoordinate?) {
+                    val vector4f = Vector4f(pos.x, pos.y, pos.z, 1f)
+                    vector4f.transform(poseStack.last().pose())
+                    consumer.vertex(
+                        vector4f.x(),
+                        vector4f.y(),
+                        vector4f.z(),
+                        1f,
+                        1f,
+                        1f,
+                        1f,
+                        tex?.u ?: 0f,
+                        tex?.v ?: 0f,
+                        0,
+                        0,
+                        f.tri.normal.x,
+                        f.tri.normal.y,
+                        f.tri.normal.z
+                    )
+                }
+
+                v(f.tri.a, f.tex?.a)
+                v(f.tri.b, f.tex?.b)
+                v(f.tri.c, f.tex?.c)
+            }
+        }
+
         poseStack.popPose()
     }
 }
