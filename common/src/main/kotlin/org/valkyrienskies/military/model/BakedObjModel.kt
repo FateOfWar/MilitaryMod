@@ -23,7 +23,15 @@ class BakedObjModel(
         model.groups.forEach {
             val texture = textures(it)
             it.mesh.forEach { face ->
-                val sprite = SimpleTextureAtlasSprite(texture, 0, (face.tex?.a?.u ?: 0).toInt() + 1, (face.tex?.a?.v ?: 0).toInt() + 1, 1, 1) // TODO
+                val sprite = SimpleTextureAtlasSprite(
+                    texture,
+                    texture.info(face.tri.getAABB()),
+                    mipLevel = 0,
+                    storageY = (face.tex?.a?.u ?: 0).toInt() + 1,
+                    storageX = (face.tex?.a?.v ?: 0).toInt() + 1,
+                    x = 0, // TODO: change to zero
+                    y = 0
+                )
                 val vert = face.tri.toMinecraftVertices(tex = sprite)
                 quads += BakedQuad(vert, 0, Direction.UP, sprite, true)
             }

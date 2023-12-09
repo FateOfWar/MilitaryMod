@@ -41,15 +41,14 @@ object MilitaryMod {
             val texImg = NativeImage.read(tex)
             val img = SimpleTextureAtlasSpriteSource(
                 texImg,
-                texLoc,
-                TextureAtlasSprite.Info(texLoc, texImg.width, texImg.height, AnimationMetadataSection.EMPTY)
+                texLoc
             )
             val model = fmt.loadFrom(a)
             MilModels.TURRET_BASE_RAW = model
             MilModels.TURRET_BASE = BakedObjModel(
                 model,
                 { img },
-                SimpleTextureAtlasSprite(img, 0, 0, 0, 1, 0)
+                SimpleTextureAtlasSprite(img, img.info, 0, 0, 0, 0, 0)
             )
         }
     }
