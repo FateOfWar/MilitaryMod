@@ -3,7 +3,9 @@
   "package": "org.valkyrienskies.military.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "client.MixinLevelLoadingScreen"
+    "client.MixinLevelLoadingScreen",
+    "client.MixinMinecraft",
+    "client.MixinVSPhysicsEntityRenderer"
   ],
   "injectors": {
     "defaultRequire": 1

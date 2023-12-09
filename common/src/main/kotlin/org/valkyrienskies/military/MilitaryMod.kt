@@ -1,6 +1,14 @@
 package org.valkyrienskies.military
 
+import me.alex_s168.meshlib.format.OBJModelFormat
+import net.minecraft.resources.ResourceLocation
 import org.valkyrienskies.core.impl.config.VSConfigClass
+import org.valkyrienskies.military.model.BakedObjModel
+import org.valkyrienskies.military.util.getRes
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.io.Reader
+
 
 object MilitaryMod {
     const val MOD_ID = "military"
@@ -19,6 +27,12 @@ object MilitaryMod {
 
     @JvmStatic
     fun initClient() {
-
+        val fmt = OBJModelFormat()
+        MilEvents.postLoad.on { _ ->
+            val a = getRes(javaClass, "assets/$MOD_ID/models/special/turret_base.obj")!!.readText()
+            val model = fmt.loadFrom(a)
+            MilModels.TURRET_BASE_RAW = model
+            MilModels.TURRET_BASE = BakedObjModel(model, mapOf())
+        }
     }
 }
