@@ -18,9 +18,13 @@ if (project.hasProperty("CustomReleaseVersion")) {
     // Remove release/ from the version if present
     version = project.property("CustomReleaseVersion").replaceFirst("^release/", "")
 } else {
-    String gitRevision = "git rev-parse HEAD".execute().text.trim()
+    try {
+        String gitRevision = "git rev-parse HEAD".execute().text.trim()
 
-    version = mod_version + '+' + gitRevision.substring(0, 10)
+        version = mod_version + '+' + gitRevision.substring(0, 10)
+    } catch (ignored) {
+        version = mod_version + "+any"
+    }
 }
 
 architectury {
@@ -81,8 +85,6 @@ subprojects {
 
         implementation("org.joml:joml:1.10.4") { transitive = false }
         implementation("org.joml:joml-primitives:1.10.0") { transitive = false }
-
-        implementation urlFile("http://207.180.202.42/alex/builds/meshlib-${meshlib_version}.jar", "meshlib-$meshlib_version")
     }
 
     checkstyle {
@@ -146,5 +148,26 @@ allprojects {
 
     java {
         withSourcesJar()
+    }
+}
+
+tasks.register('copyJars') {
+    mustRunAfter(build)
+    doLast {
+        def bl = new File(projectDir, "build/libs")
+        copy {
+            from new File(projectDir, "forge/build/libs/military-mod-${version}.jar")
+            into bl
+            rename { String ignored ->
+                "military-mod-forge-${version}.jar"
+            }
+        }
+        copy {
+            from new File(projectDir, "fabric/build/libs/military-mod-${version}.jar")
+            into bl
+            rename { String ignored ->
+                "military-mod-fabric-${version}.jar"
+            }
+        }
     }
 }
