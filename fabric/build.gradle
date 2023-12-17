@@ -40,6 +40,7 @@ dependencies {
     modApi("org.valkyrienskies:valkyrienskies-118-fabric:${rootProject.vs2_version}")
 
     modImplementation(include("io.github.fabricators_of_create.porting-lib:obj-loader:1.0"))
+    shadowCommon(include("io.github.fabricators_of_create.porting-lib:obj-loader:1.0"))
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
