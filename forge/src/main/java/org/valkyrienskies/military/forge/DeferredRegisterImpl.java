@@ -40,7 +40,7 @@ public class DeferredRegisterImpl<T> implements DeferredRegister<T> {
 
     @Override
     public void applyAll() {
-        forge.register(MilitaryModForge.MOD_BUS);
+        forge.register(MilitaryModForge.Companion.getModBus());
     }
 
     @NotNull
