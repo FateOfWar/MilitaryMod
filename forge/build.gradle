@@ -49,34 +49,6 @@ configurations {
             developmentForge.extendsFrom common
 }
 
-// TODO: function is also in the main gradle build file. do something about that.
-static def redirectFollowingDownload(String url, String filename ) {
-    while( url ) {
-        new URL( url ).openConnection().with { conn ->
-            conn.instanceFollowRedirects = false
-            url = conn.getHeaderField( "Location" )
-            if( !url ) {
-                new File( filename ).withOutputStream { out ->
-                    conn.inputStream.with { inp ->
-                        out << inp
-                        inp.close()
-                    }
-                }
-            }
-        }
-    }
-}
-
-// TODO: function is also in the main gradle build file. do something about that.
-def urlFile = { String url, String name ->
-    def p = new File("${getLayout().buildDirectory.asFile.get()}/download/${name}.jar").absoluteFile
-    if (!p.isFile()) {
-        p.parentFile.mkdirs()
-        redirectFollowingDownload(url, p.absolutePath)
-    }
-    return files(p.absolutePath)
-}
-
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
     modApi("org.valkyrienskies:valkyrienskies-118-forge:${rootProject.vs2_version}") { transitive = false }
@@ -85,9 +57,6 @@ dependencies {
     implementation("org.valkyrienskies.core:api-game:${rootProject.vs_core_version}")
     implementation("org.valkyrienskies.core:util:${rootProject.vs_core_version}")
     implementation("org.valkyrienskies.core:impl:${rootProject.vs_core_version}")
-
-    implementation urlFile("http://207.180.202.42/alex/builds/meshlib-${meshlib_version}.jar", "meshlib-$meshlib_version")
-    forgeRuntimeLibrary shadowCommon(urlFile("http://207.180.202.42/alex/builds/meshlib-${meshlib_version}.jar", "meshlib-$meshlib_version"))
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }

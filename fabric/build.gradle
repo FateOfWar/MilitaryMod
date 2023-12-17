@@ -23,33 +23,8 @@ configurations {
             developmentFabric.extendsFrom common
 }
 
-
-// TODO: function is also in the main gradle build file. do something about that.
-static def redirectFollowingDownload(String url, String filename ) {
-    while( url ) {
-        new URL( url ).openConnection().with { conn ->
-            conn.instanceFollowRedirects = false
-            url = conn.getHeaderField( "Location" )
-            if( !url ) {
-                new File( filename ).withOutputStream { out ->
-                    conn.inputStream.with { inp ->
-                        out << inp
-                        inp.close()
-                    }
-                }
-            }
-        }
-    }
-}
-
-// TODO: function is also in the main gradle build file. do something about that.
-def urlFile = { String url, String name ->
-    def p = new File("${getLayout().buildDirectory.asFile.get()}/download/${name}.jar").absoluteFile
-    if (!p.isFile()) {
-        p.parentFile.mkdirs()
-        redirectFollowingDownload(url, p.absolutePath)
-    }
-    return files(p.absolutePath)
+repositories {
+    maven { url = "https://mvn.devos.one/snapshots/" }
 }
 
 dependencies {
@@ -64,8 +39,7 @@ dependencies {
     // Remove the next line if you don't want to depend on the API
     modApi("org.valkyrienskies:valkyrienskies-118-fabric:${rootProject.vs2_version}")
 
-    implementation urlFile("http://207.180.202.42/alex/builds/meshlib-${meshlib_version}.jar", "meshlib-$meshlib_version")
-    shadowCommon urlFile("http://207.180.202.42/alex/builds/meshlib-${meshlib_version}.jar", "meshlib-$meshlib_version")
+    modImplementation(include("io.github.fabricators_of_create.porting-lib:obj-loader:1.0"))
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }

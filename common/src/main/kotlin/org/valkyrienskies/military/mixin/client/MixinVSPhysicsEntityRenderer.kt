@@ -1,13 +1,7 @@
 package org.valkyrienskies.military.mixin.client
 
-import com.mojang.blaze3d.platform.GlStateManager
-import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.math.Vector4f
-import me.alex_s168.math.Vec3
-import me.alex_s168.meshlib.texture.TextureCoordinate
 import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.ItemBlockRenderTypes
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.texture.OverlayTexture
@@ -66,17 +60,13 @@ class MixinVSPhysicsEntityRenderer {
         poseStack.mulPose(renderTransform.shipToWorldRotation.toMinecraft())
         poseStack.translate(-0.5, -0.5, -0.5)
 
-        val blockRenderDispatcher = Minecraft.getInstance().blockRenderer
-        blockRenderDispatcher.modelRenderer.renderModel(
-            poseStack.last(),
-            multiBufferSource.getBuffer(
-                ItemBlockRenderTypes.getMovingBlockRenderType(blockState)
-            ),
-            blockState,
-            MilModels.TURRET_BASE,
-            1f, 1f, 1f,
-            0,
-            OverlayTexture.NO_OVERLAY
+        MilModels.TURRET_BASE(
+            poseStack,
+            multiBufferSource,
+            { RenderType.solid() },
+            OverlayTexture.NO_OVERLAY,
+            i,
+            partialTick,
         )
 
         poseStack.popPose()
