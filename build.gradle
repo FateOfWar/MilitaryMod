@@ -31,32 +31,6 @@ architectury {
     minecraft = rootProject.minecraft_version
 }
 
-static def redirectFollowingDownload(String url, String filename ) {
-    while( url ) {
-        new URL( url ).openConnection().with { conn ->
-            conn.instanceFollowRedirects = false
-            url = conn.getHeaderField( "Location" )
-            if( !url ) {
-                new File( filename ).withOutputStream { out ->
-                    conn.inputStream.with { inp ->
-                        out << inp
-                        inp.close()
-                    }
-                }
-            }
-        }
-    }
-}
-
-def urlFile = { String url, String name ->
-    def p = new File("${getLayout().buildDirectory.asFile.get()}/download/${name}.jar").absoluteFile
-    if (!p.isFile()) {
-        p.parentFile.mkdirs()
-        redirectFollowingDownload(url, p.absolutePath)
-    }
-    return files(p.absolutePath)
-}
-
 subprojects {
     apply plugin: "dev.architectury.loom"
     // Apply checkstyle and ktlint to check the code style of every sub project
